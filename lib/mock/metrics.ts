@@ -1,9 +1,26 @@
 import type { CityMetrics, CategoryMetrics, ProductMetrics, TimeScope } from "@/types";
 import { CITIES } from "@/config/cities";
 
-const rnd  = (min: number, max: number) => Math.round(min + Math.random() * (max - min));
-const rndF = (min: number, max: number, d = 1) =>
-  parseFloat((min + Math.random() * (max - min)).toFixed(d));
+// ── Seeded RNG — Math.random() 대신 사용해 SSR/CSR 값 일치 보장 ──────
+function makeRng(seed: string) {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) {
+    h = (Math.imul(31, h) + seed.charCodeAt(i)) | 0;
+  }
+  return () => {
+    h ^= h >>> 16;
+    h = Math.imul(h, 0x45d9f3b);
+    h ^= h >>> 16;
+    return (h >>> 0) / 0xffffffff;
+  };
+}
+
+function makeHelpers(rng: () => number) {
+  const rnd  = (min: number, max: number) => Math.round(min + rng() * (max - min));
+  const rndF = (min: number, max: number, d = 1) =>
+    parseFloat((min + rng() * (max - min)).toFixed(d));
+  return { rnd, rndF };
+}
 
 const SCALE: Record<string, number> = {
   istanbul: 5, cappadocia: 3, barcelona: 4, madrid: 3,
@@ -12,7 +29,7 @@ const SCALE: Record<string, number> = {
   majorca: 1, cairo: 1,
 };
 
-function genSparkline(base: number, weeks = 8): number[] {
+function genSparkline(base: number, rndF: (min: number, max: number) => number, weeks = 8): number[] {
   let v = base;
   return Array.from({ length: weeks }, () => {
     v = v * rndF(0.88, 1.12);
@@ -21,6 +38,8 @@ function genSparkline(base: number, weeks = 8): number[] {
 }
 
 function makeMetrics(cityId: string, period: string, scope: TimeScope): CityMetrics {
+  // seed = cityId + period + scope → 항상 동일한 값 생성 (SSR/CSR 일치)
+  const { rnd, rndF } = makeHelpers(makeRng(`${cityId}-${period}-${scope}`));
   const s = SCALE[cityId] ?? 1;
   const base = s * 10_000_000;
 
@@ -58,9 +77,9 @@ function makeMetrics(cityId: string, period: string, scope: TimeScope): CityMetr
     prevCfr: prevGmv > 0 ? (prevConfirmGmv / prevGmv) * 100 : 0,
     prevWeekSameDayGmv, prevWeekSameDayConfirmGmv, prevWeekSameDayUv,
     prevWeekSameDayCvr, prevWeekSameDayOrderCount, prevWeekSameDayAsp,
-    sparklineGmv: genSparkline(gmv),
-    sparklineUv:  genSparkline(uv),
-    sparklineCvr: genSparkline(cvr * 100),
+    sparklineGmv: genSparkline(gmv, rndF),
+    sparklineUv:  genSparkline(uv,  rndF),
+    sparklineCvr: genSparkline(cvr * 100, rndF),
   } as CityMetrics & Record<string, unknown>;
 }
 
@@ -89,18 +108,21 @@ const PRODUCT_NAMES = [
 ];
 
 export function getMockProductMetrics(cityId: string): ProductMetrics[] {
-  return PRODUCT_NAMES.map((name, i) => ({
-    productId: `${cityId}-p${i + 1}`,
-    productName: name,
-    cityId,
-    category: CATEGORIES[i % CATEGORIES.length],
-    gmv:         rnd(2_000_000, 20_000_000),
-    confirmGmv:  rnd(1_500_000, 18_000_000),
-    cm:          rndF(8, 22),
-    uv:          rnd(200, 1500),
-    cvr:         rndF(2, 10),
-    orderCount:  rnd(10, 80),
-    asp:         rnd(50_000, 300_000),
-    leadTime:    rnd(3, 45),
-  }));
+  return PRODUCT_NAMES.map((name, i) => {
+    const { rnd, rndF } = makeHelpers(makeRng(`${cityId}-product-${i}`));
+    return {
+      productId: `${cityId}-p${i + 1}`,
+      productName: name,
+      cityId,
+      category: CATEGORIES[i % CATEGORIES.length],
+      gmv:        rnd(2_000_000, 20_000_000),
+      confirmGmv: rnd(1_500_000, 18_000_000),
+      cm:         rndF(8, 22),
+      uv:         rnd(200, 1500),
+      cvr:        rndF(2, 10),
+      orderCount: rnd(10, 80),
+      asp:        rnd(50_000, 300_000),
+      leadTime:   rnd(3, 45),
+    };
+  });
 }
