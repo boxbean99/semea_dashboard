@@ -25,14 +25,29 @@ export interface CityMetrics {
   orderCount: number;
   asp: number;
 
-  // WoW 비교
+  // 비교 지표 (MoM / WoW / DoD)
   prevGmv?: number;
   prevConfirmGmv?: number;
+  prevCfr?: number;
   prevCm?: number;
+  prevCmAmount?: number;
   prevUv?: number;
   prevCvr?: number;
   prevOrderCount?: number;
   prevAsp?: number;
+
+  // 일간 전주 동요일 비교 (DoD-W)
+  prevWeekSameDayGmv?: number;
+  prevWeekSameDayConfirmGmv?: number;
+  prevWeekSameDayUv?: number;
+  prevWeekSameDayCvr?: number;
+  prevWeekSameDayOrderCount?: number;
+  prevWeekSameDayAsp?: number;
+
+  // Sparkline (8주 트렌드)
+  sparklineGmv?: number[];
+  sparklineUv?: number[];
+  sparklineCvr?: number[];
 }
 
 export type TimeScope = "monthly" | "weekly" | "daily";
