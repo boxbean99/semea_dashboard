@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, CheckSquare, Kanban } from "lucide-react";
+import { LayoutDashboard, CheckSquare, Kanban, RefreshCw } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "DASHBOARD",       icon: LayoutDashboard },
@@ -18,41 +18,56 @@ export default function Navigation() {
       style={{
         backgroundColor: "#151d2e",
         borderBottom: "1px solid #263354",
-        padding: "0 24px",
-        display: "flex",
-        alignItems: "center",
-        height: "56px",
-        gap: "8px",
         position: "sticky",
         top: 0,
         zIndex: 50,
       }}
     >
-      {/* Logo */}
-      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginRight: "32px" }}>
-        <div
+      {/* Row 1: 팀명 + 새로고침 */}
+      <div
+        style={{
+          padding: "0 24px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: "44px",
+          borderBottom: "1px solid #1e2d48",
+        }}
+      >
+        <span style={{ color: "#c8d6f0", fontWeight: 700, fontSize: "15px", letterSpacing: "0.04em" }}>
+          남부유럽팀
+        </span>
+        <button
+          onClick={() => window.location.reload()}
+          title="새로고침"
           style={{
-            width: "32px",
-            height: "32px",
-            borderRadius: "50%",
-            background: "linear-gradient(135deg, #2dd4bf, #1a8f80)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontWeight: 700,
-            fontSize: "13px",
-            color: "#0d1117",
+            width: "30px",
+            height: "30px",
+            borderRadius: "6px",
+            backgroundColor: "transparent",
+            border: "1px solid #263354",
+            color: "#8899bb",
+            cursor: "pointer",
+            transition: "all 0.15s",
+          }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLButtonElement).style.borderColor = "#2dd4bf";
+            (e.currentTarget as HTMLButtonElement).style.color = "#2dd4bf";
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLButtonElement).style.borderColor = "#263354";
+            (e.currentTarget as HTMLButtonElement).style.color = "#8899bb";
           }}
         >
-          SE
-        </div>
-        <span style={{ color: "#e8edf8", fontWeight: 600, fontSize: "15px", letterSpacing: "0.05em" }}>
-          SE&amp;MEA
-        </span>
+          <RefreshCw size={13} />
+        </button>
       </div>
 
-      {/* Nav tabs */}
-      <nav style={{ display: "flex", gap: "4px" }}>
+      {/* Row 2: 페이지 탭 */}
+      <div style={{ padding: "0 24px", display: "flex", gap: "4px", height: "42px", alignItems: "center" }}>
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
           const active = pathname.startsWith(href);
           return (
@@ -65,7 +80,7 @@ export default function Navigation() {
                 gap: "6px",
                 padding: "6px 14px",
                 borderRadius: "4px",
-                fontSize: "12px",
+                fontSize: "13px",
                 fontWeight: active ? 600 : 500,
                 letterSpacing: "0.07em",
                 color: active ? "#2dd4bf" : "#8899bb",
@@ -75,12 +90,12 @@ export default function Navigation() {
                 transition: "all 0.15s ease",
               }}
             >
-              <Icon size={14} />
+              <Icon size={13} />
               {label}
             </Link>
           );
         })}
-      </nav>
+      </div>
     </header>
   );
 }

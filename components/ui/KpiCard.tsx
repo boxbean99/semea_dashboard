@@ -26,10 +26,10 @@ function Arrow({ positive, neutral }: { positive: boolean; neutral: boolean }) {
 function DeltaBadge({ label, text, positive, neutral }: { label: string; text: string; positive: boolean; neutral: boolean }) {
   const color = neutral ? DELTA_COLOR.neutral : positive ? DELTA_COLOR.pos : DELTA_COLOR.neg;
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px" }}>
+    <div style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "12px" }}>
       <Arrow positive={positive} neutral={neutral} />
       <span style={{ color, fontWeight: 600 }}>{text}</span>
-      <span style={{ color: "#4a5a7a" }}>{label}</span>
+      <span style={{ color: "#7a8faa" }}>{label}</span>
     </div>
   );
 }
@@ -68,14 +68,14 @@ export default function KpiCard({ def, metrics, scope, sparklineData }: Props) {
     }}>
       {/* Header row */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-        <span style={{ fontSize: "11px", fontWeight: 600, color: "#8899bb", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+        <span style={{ fontSize: "12px", fontWeight: 600, color: "#a0b0cc", letterSpacing: "0.06em", textTransform: "uppercase" }}>
           {def.label}
         </span>
         {sparklineData && <Sparkline data={sparklineData} width={72} height={28} />}
       </div>
 
       {/* Main value */}
-      <div style={{ fontSize: "22px", fontWeight: 700, color: "#e8edf8", lineHeight: 1.2 }}>
+      <div style={{ fontSize: "24px", fontWeight: 700, color: "#e8edf8", lineHeight: 1.2 }}>
         {formatted}
       </div>
 

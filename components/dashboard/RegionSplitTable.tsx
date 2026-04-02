@@ -8,7 +8,7 @@ interface Props { allMetrics: CityMetrics[]; }
 function Delta({ current, prev }: { current: number; prev?: number }) {
   const d = calcDelta(current, prev);
   if (d.neutral) return <span style={{ color: "#4a5a7a" }}>—</span>;
-  return <span style={{ color: d.positive ? "#4ade80" : "#f87171", fontSize: "11px", fontWeight: 600 }}>
+  return <span style={{ color: d.positive ? "#4ade80" : "#f87171", fontSize: "12px", fontWeight: 600 }}>
     {d.positive ? "▲" : "▼"} {d.text}
   </span>;
 }
@@ -26,12 +26,12 @@ export default function RegionSplitTable({ allMetrics }: Props) {
   ] as const;
 
   const th: React.CSSProperties = {
-    padding: "8px 12px", fontSize: "11px", fontWeight: 600,
+    padding: "8px 12px", fontSize: "12px", fontWeight: 600,
     color: "#8899bb", textAlign: "right", whiteSpace: "nowrap",
     letterSpacing: "0.04em", textTransform: "uppercase",
   };
   const td: React.CSSProperties = {
-    padding: "10px 12px", fontSize: "13px", fontWeight: 600,
+    padding: "10px 12px", fontSize: "14px", fontWeight: 600,
     color: "#e8edf8", textAlign: "right", whiteSpace: "nowrap",
   };
   const subTd: React.CSSProperties = { ...td, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1px" };
@@ -39,7 +39,7 @@ export default function RegionSplitTable({ allMetrics }: Props) {
   return (
     <div style={{ backgroundColor: "#1a2540", border: "1px solid #263354", borderRadius: "8px", overflow: "hidden" }}>
       <div style={{ padding: "12px 16px", borderBottom: "1px solid #263354" }}>
-        <span style={{ fontSize: "12px", fontWeight: 700, color: "#8899bb", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+        <span style={{ fontSize: "13px", fontWeight: 700, color: "#8899bb", letterSpacing: "0.06em", textTransform: "uppercase" }}>
           지역별 분할
         </span>
       </div>

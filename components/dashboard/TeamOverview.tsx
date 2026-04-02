@@ -18,18 +18,18 @@ export default function TeamOverview({ allMetrics, scope }: Props) {
     <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       {/* Title */}
       <div>
-        <h2 style={{ fontSize: "18px", fontWeight: 700, color: "#e8edf8", margin: 0 }}>
-          SE&amp;MEA 팀 누적 지표
+        <h2 style={{ fontSize: "20px", fontWeight: 700, color: "#e8edf8", margin: 0 }}>
+          남부유럽팀 누적 지표
         </h2>
-        <p style={{ fontSize: "12px", color: "#4a5a7a", margin: "4px 0 0" }}>
+        <p style={{ fontSize: "13px", color: "#7a8faa", margin: "4px 0 0" }}>
           {allMetrics.length}개 도시 합산
         </p>
       </div>
 
-      {/* KPI Grid */}
+      {/* KPI Grid — 4×2 고정 */}
       <div style={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+        gridTemplateColumns: "repeat(4, 1fr)",
         gap: "12px",
       }}>
         {KPI_DEFS.map(def => {

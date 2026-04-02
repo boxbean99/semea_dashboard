@@ -25,12 +25,12 @@ function Delta({ current, prev }: { current: number; prev?: number }) {
 }
 
 const th: React.CSSProperties = {
-  padding: "8px 12px", fontSize: "11px", fontWeight: 600,
+  padding: "8px 12px", fontSize: "12px", fontWeight: 600,
   color: "#8899bb", textAlign: "right", whiteSpace: "nowrap",
   letterSpacing: "0.04em", textTransform: "uppercase",
 };
 const td: React.CSSProperties = {
-  padding: "10px 12px", fontSize: "13px", color: "#e8edf8", textAlign: "right", whiteSpace: "nowrap",
+  padding: "10px 12px", fontSize: "14px", color: "#e8edf8", textAlign: "right", whiteSpace: "nowrap",
 };
 
 export default function CategoryTab({ data }: Props) {
@@ -41,14 +41,14 @@ export default function CategoryTab({ data }: Props) {
     <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       {/* Bar chart */}
       <div>
-        <p style={{ fontSize: "11px", fontWeight: 600, color: "#8899bb", textTransform: "uppercase", letterSpacing: "0.06em", margin: "0 0 10px" }}>
+        <p style={{ fontSize: "12px", fontWeight: 600, color: "#8899bb", textTransform: "uppercase", letterSpacing: "0.06em", margin: "0 0 10px" }}>
           카테고리별 거래액
         </p>
         <ResponsiveContainer width="100%" height={160}>
           <BarChart data={chartData} layout="vertical" margin={{ left: 8, right: 16 }}>
             <XAxis type="number" hide />
             <YAxis type="category" dataKey="name" width={100}
-              tick={{ fill: "#8899bb", fontSize: 12 }} axisLine={false} tickLine={false} />
+              tick={{ fill: "#8899bb", fontSize: 13 }} axisLine={false} tickLine={false} />
             <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(45,212,191,0.05)" }} />
             <Bar dataKey="gmv" radius={[0, 4, 4, 0]}>
               {chartData.map((_, i) => <Cell key={i} fill={BAR_COLORS[i % BAR_COLORS.length]} />)}
@@ -83,14 +83,14 @@ export default function CategoryTab({ data }: Props) {
                 <td style={td}>
                   <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1px" }}>
                     <span style={{ fontWeight: 600 }}>{formatKRW(row.gmv)}</span>
-                    <span style={{ fontSize: "11px" }}><Delta current={row.gmv} prev={row.prevGmv} /></span>
+                    <span style={{ fontSize: "12px" }}><Delta current={row.gmv} prev={row.prevGmv} /></span>
                   </div>
                 </td>
                 <td style={td}>{formatKRW(row.confirmGmv)}</td>
                 <td style={td}>
                   <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1px" }}>
                     <span style={{ fontWeight: 600 }}>{formatPct(row.cm)}</span>
-                    <span style={{ fontSize: "11px" }}><Delta current={row.cm} prev={row.prevCm} /></span>
+                    <span style={{ fontSize: "12px" }}><Delta current={row.cm} prev={row.prevCm} /></span>
                   </div>
                 </td>
                 <td style={td}>{row.uv.toLocaleString()}</td>

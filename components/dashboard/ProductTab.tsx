@@ -11,14 +11,14 @@ type SortKey = keyof Pick<ProductMetrics, "gmv" | "cm" | "uv" | "cvr" | "asp" | 
 const PAGE_SIZE = 8;
 
 const th: React.CSSProperties = {
-  padding: "8px 12px", fontSize: "11px", fontWeight: 600,
+  padding: "8px 12px", fontSize: "12px", fontWeight: 600,
   color: "#8899bb", whiteSpace: "nowrap",
   letterSpacing: "0.04em", textTransform: "uppercase",
   cursor: "pointer", userSelect: "none",
   borderBottom: "1px solid #263354",
 };
 const td: React.CSSProperties = {
-  padding: "10px 12px", fontSize: "13px", color: "#e8edf8",
+  padding: "10px 12px", fontSize: "14px", color: "#e8edf8",
   whiteSpace: "nowrap", borderBottom: "1px solid #1f2d4a",
 };
 
@@ -69,7 +69,7 @@ export default function ProductTab({ data }: Props) {
           style={{
             width: "100%", padding: "7px 12px 7px 32px",
             backgroundColor: "#0d1117", border: "1px solid #263354",
-            borderRadius: "6px", color: "#e8edf8", fontSize: "13px",
+            borderRadius: "6px", color: "#e8edf8", fontSize: "14px",
             fontFamily: "inherit", outline: "none",
           }}
         />
@@ -96,10 +96,10 @@ export default function ProductTab({ data }: Props) {
               <tr key={p.productId}>
                 <td style={{ ...td, maxWidth: "200px" }}>
                   <div style={{ fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis" }}>{p.productName}</div>
-                  <div style={{ fontSize: "11px", color: "#4a5a7a" }}>{p.productId}</div>
+                  <div style={{ fontSize: "12px", color: "#4a5a7a" }}>{p.productId}</div>
                 </td>
                 <td style={{ ...td }}>
-                  <span style={{ fontSize: "11px", padding: "2px 8px", backgroundColor: "#151d2e", border: "1px solid #263354", borderRadius: "20px" }}>
+                  <span style={{ fontSize: "12px", padding: "2px 8px", backgroundColor: "#151d2e", border: "1px solid #263354", borderRadius: "20px" }}>
                     {p.category}
                   </span>
                 </td>
@@ -118,7 +118,7 @@ export default function ProductTab({ data }: Props) {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: "8px", fontSize: "12px", color: "#8899bb" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: "8px", fontSize: "13px", color: "#8899bb" }}>
           <span>{filtered.length}개 중 {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, filtered.length)}</span>
           <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}
             style={{ padding: "3px 10px", backgroundColor: "#1a2540", border: "1px solid #263354", borderRadius: "4px", color: page === 0 ? "#2e3d63" : "#8899bb", cursor: page === 0 ? "not-allowed" : "pointer", fontFamily: "inherit" }}>
